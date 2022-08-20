@@ -74,19 +74,19 @@ jobs:
     runs-on: macos-10.15
     steps:
       - name: Fetch wxWidgets
-	run |
-	  brew fetch wxwidgets | awk '/Downloaded to:.*gz/||/Already downloaded:.*gz/ { print "::set-output name=FILE_NAME::" $3; }'
-	id: fetch_wx
+        run: |
+          brew fetch wxwidgets | awk '/Downloaded to:.*gz/||/Already downloaded:.*gz/ { print "::set-output name=FILE_NAME::" $3; }'
+        id: fetch_wx
 
       - name: Upload result
-	uses: nanoufo/action-upload-artifacts-and-release-assets@v1.4
-	with:
-	  path: ${{steps.fetch_wx.outputs.FILE_NAME}}
-	  upload-release-files: ${{ needs.calc_ver.outputs.release_flag }}
-	  release-upload-url: ${{ needs.calc_ver.outputs.release_upload_url }}
-	  if-no-files-found: error
-	env:
-	  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: nanoufo/action-upload-artifacts-and-release-assets@v1.4
+        with:
+          path: ${{steps.fetch_wx.outputs.FILE_NAME}}
+          upload-release-files: ${{ needs.calc_ver.outputs.release_flag }}
+          release-upload-url: ${{ needs.calc_ver.outputs.release_upload_url }}
+          if-no-files-found: error
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     needs: [calc_ver, build]

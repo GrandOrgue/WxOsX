@@ -20,7 +20,7 @@ jobs:
     - name: Set git tags and compose RELNOTES.md
       shell: bash
       run: ${{github.workspace}}/build-scripts/for-github/autotag.sh
-      if: ${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-') }}
+      if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release-') }}
 
     - name: Calculate relnotes file
       id: relnotes
